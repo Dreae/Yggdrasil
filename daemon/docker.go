@@ -26,7 +26,7 @@ func createServer(client *docker.Client, def ServerDefinition) error {
   var hostConfig docker.HostConfig
 
   contConfig.Image = def.Image
-  contConfig.Entrypoint = def.Args
+  contConfig.Cmd = def.Args
   contConfig.Tty = true
 
   hostConfig.PortBindings = make(map[docker.Port][]docker.PortBinding)
