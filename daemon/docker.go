@@ -43,12 +43,15 @@ func createServer(client *docker.Client, def ServerDefinition) error {
   contConfig.Tty = true
 
   hostConfig.PortBindings = make(map[docker.Port][]docker.PortBinding)
+  contConfig.ExposedPorts = make(map[docker.Port]struct{})
 
   for _, port := range def.Ports {
     pK := docker.Port(fmt.Sprintf("%d/%s", port.Container, port.Protocol))
     hostConfig.PortBindings[pK] = make([]docker.PortBinding, 1)
     hostConfig.PortBindings[pK][0].HostIP = "0.0.0.0"
     hostConfig.PortBindings[pK][0].HostPort = strconv.Itoa(port.Host)
+
+    contConfig.ExposedPorts[pK] = struct{}{}
   }
 
   createConfig.Config = &contConfig
