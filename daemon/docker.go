@@ -3,7 +3,6 @@ package daemon
 import (
   "os"
   "fmt"
-  "log"
   "time"
   "strconv"
   "github.com/fsouza/go-dockerclient"
@@ -40,6 +39,7 @@ func createServer(client *docker.Client, def ServerDefinition) error {
 
   contConfig.Image = def.Image
   contConfig.Cmd = def.Args
+  contConfig.AttachStdin = true
   contConfig.Tty = true
 
   hostConfig.PortBindings = make(map[docker.Port][]docker.PortBinding)
@@ -50,8 +50,6 @@ func createServer(client *docker.Client, def ServerDefinition) error {
     hostConfig.PortBindings[pK][0].HostIP = "0.0.0.0"
     hostConfig.PortBindings[pK][0].HostPort = strconv.Itoa(port.Host)
   }
-
-  log.Println(hostConfig.PortBindings)
 
   createConfig.Config = &contConfig
   createConfig.HostConfig = &hostConfig
@@ -67,7 +65,7 @@ func getServerStatus(client *docker.Client, id string) (*ServerStatus, error) {
 
   var status ServerStatus
   switch {
-  case container.State.Running:
+  case container.State.Running && !container.State.Paused:
     status.State = "running"
   case container.State.Paused:
     status.State = "paused"
