@@ -8,7 +8,7 @@ import (
   "github.com/fsouza/go-dockerclient"
 )
 
-func handleCreateServer(client *docker.Client)interface {} {
+func handleCreateServer(client *docker.Client)func(*web.Context, string) {
   handler := func(ctx *web.Context, id string) {
     body, err := ioutil.ReadAll(ctx.Request.Body)
     if err != nil {

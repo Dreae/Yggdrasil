@@ -1,30 +1,18 @@
 package daemon
 
 import (
-  "os"
-  "fmt"
+  "log"
   "github.com/hoisie/web"
-  "github.com/fsouza/go-dockerclient"
 )
 
 func ServeHttp(bind string) {
-  var client *docker.Client
-  endpoint := os.Getenv("DOCKER_HOST")
-  if endpoint == "" {
-    endpoint = "unix:///var/run/docker.sock"
-  }
-
-  path := os.Getenv("DOCKER_CERT_PATH")
-  if path == "" {
-    client, _ = docker.NewClient(endpoint)
-  } else {
-    ca := fmt.Sprintf("%s/ca.pem", path)
-    cert := fmt.Sprintf("%s/cert.pem", path)
-    key := fmt.Sprintf("%s/key.pem", path)
-    client, _ = docker.NewTLSClient(endpoint, cert, key, ca)
+  client, err := initDockerClient()
+  if err != nil {
+    log.Panicln(err)
   }
 
   web.Put("/servers/([A-z0-9]+)", handleCreateServer(client))
+  web.Get("/servers/([A-z0-9]+)/status", handleGetServerStatus(client))
 
   web.Run(bind)
 }
