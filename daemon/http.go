@@ -12,8 +12,13 @@ func ServeHttp(bind string) {
   }
 
   web.Put("/servers/([A-z0-9]+)", handleCreateServer(client))
+
   web.Get("/servers/([A-z0-9]+)/status", handleGetServerStatus(client))
   web.Put("/servers/([A-z0-9]+)/status", handleSetServerStatus(client))
+
+  web.Get("/servers/([A-z0-9]+)/logs", handleGetServerLogs(client))
+
+  web.Get("/servers/([A-z0-9]+)/files/(.*)", handleGetServerFile(client))
 
   web.Run(bind)
 }
