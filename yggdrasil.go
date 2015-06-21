@@ -18,7 +18,7 @@ func main() {
     host := fmt.Sprintf("%s:%d", config.HostIP, config.HostPort)
     peers := fmt.Sprintf("%s:%d", config.PeerIP, config.PeerPort)
 
-    server.Listen(host, peers)
+    server.Listen(host, peers, config.SQL_DSN)
   }
 }
 
@@ -28,6 +28,7 @@ type Config struct {
   PeerIP string
   HostPort int
   HostIP string
+  SQL_DSN string
   JoinURL string
   IP string
   Port int
@@ -39,6 +40,7 @@ func readConfig() *Config {
   peerIp := flag.String("peer-ip", "127.0.0.1", "Address to listen for daemons on")
   hostPort := flag.Int("host-port", 8080, "Port the master server will server the UI from")
   hostIp := flag.String("host-ip", "0.0.0.0", "Address to serve the UI from")
+  sqlDsn := flag.String("sql-dsn", "root:password@/yggdrasil", "DSN to connect to the SQL database")
   configFile := flag.String("config-file", "", "Config file to use")
 
   port := flag.Int("p", 4315, "Define the listen port")
@@ -76,17 +78,20 @@ func readConfig() *Config {
     if val, ok := config["join_url"]; ok {
       *join = val.(string)
     }
+    if val, ok := config["sql_dsn"]; ok {
+      *sqlDsn = val.(string)
+    }
   }
 
-  var config Config
-  config.Server = *server_
-  config.PeerPort = *peerPort
-  config.PeerIP = *peerIp
-  config.HostPort = *hostPort
-  config.HostIP = *hostIp
-  config.JoinURL = *join
-  config.Port = *port
-  config.IP = *ip
-
-  return &config
+  return &Config {
+    Server: *server_,
+    PeerPort: *peerPort,
+    PeerIP: *peerIp,
+    HostPort: *hostPort,
+    HostIP: *hostIp,
+    JoinURL: *join,
+    Port: *port,
+    IP: *ip,
+    SQL_DSN: *sqlDsn,
+  }
 }

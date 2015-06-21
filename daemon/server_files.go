@@ -12,6 +12,7 @@ func handleGetServerFile(client *docker.Client)func(*web.Context, string, string
     copyOpts.Container = id
     copyOpts.Resource = file
     copyOpts.OutputStream = ctx
+    ctx.SetHeader("Content-Type", "application/x-tar", true)
     if err := client.CopyFromContainer(copyOpts); err != nil {
       log.Panicln(err)
     }

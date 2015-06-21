@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS daemon_servers (
+  id VARCHAR(255) PRIMARY KEY,
+  ip VARCHAR(16),
+  port INT
+);

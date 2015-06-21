@@ -25,8 +25,9 @@ func ServeHttp(ip string, port int, join string) {
   web.Get("/servers/([A-z0-9]+)/files/(.*)", handleGetServerFile(client))
 
   info := make(map[string]interface{})
-  info["ip"] = ip
-  info["port"] = port
+  info["ID"] = ""
+  info["IP"] = ip
+  info["Port"] = port
   body, _ := json.Marshal(info)
 
   _, err = http.Post(fmt.Sprintf("%s/join", join), "application/json", bytes.NewReader(body))
