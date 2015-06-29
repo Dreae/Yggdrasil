@@ -6,5 +6,5 @@ import (
 )
 
 func configureUIServer(server *web.Server, conn *sql.DB) {
-
+  server.Get("/api/servers", handleAuthCheck(handleGetServerList(conn), "admin", conn))
 }

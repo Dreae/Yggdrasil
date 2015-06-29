@@ -40,7 +40,7 @@ func readConfig() *Config {
   peerIp := flag.String("peer-ip", "127.0.0.1", "Address to listen for daemons on")
   hostPort := flag.Int("host-port", 8080, "Port the master server will server the UI from")
   hostIp := flag.String("host-ip", "0.0.0.0", "Address to serve the UI from")
-  sqlDsn := flag.String("sql-dsn", "root:password@/yggdrasil", "DSN to connect to the SQL database")
+  sqlDsn := flag.String("sql-dsn", "postgres://root:password@/yggdrasil?sslmode=disable", "DSN to connect to the SQL database")
   configFile := flag.String("config-file", "", "Config file to use")
 
   port := flag.Int("p", 4315, "Define the listen port")

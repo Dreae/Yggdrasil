@@ -32,8 +32,7 @@ func ServeHttp(ip string, port int, join string) {
 
   _, err = http.Post(fmt.Sprintf("%s/join", join), "application/json", bytes.NewReader(body))
   if err != nil {
-    log.Print("Error joining master server: ")
-    log.Panicln(err)
+    log.Print("Error joining master server: ", err)
   }
 
   web.Run(fmt.Sprintf("%s:%d", ip, port))
