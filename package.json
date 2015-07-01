@@ -1,0 +1,28 @@
+{
+  "name": "yggdrasil",
+  "version": "0.0.1",
+  "description": "A manager for gameservers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dreae/Yggdrasil.git"
+  },
+  "author": "Dreae",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dreae/Yggdrasil/issues"
+  },
+  "homepage": "https://github.com/Dreae/Yggdrasil#readme",
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-copy": "^0.8.0",
+    "load-grunt-tasks": "^3.2.0"
+  },
+  "dependencies": {
+    "grunt-wiredep": "^2.0.0"
+  }
+}

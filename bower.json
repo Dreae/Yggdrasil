@@ -1,0 +1,21 @@
+{
+  "name": "Yggdrasil",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Dreae/Yggdrasil",
+  "authors": [
+    "Dreae"
+  ],
+  "description": "Game server manager",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.4.0",
+    "angular-material": "~0.10.0"
+  }
+}
