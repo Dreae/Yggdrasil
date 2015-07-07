@@ -1,0 +1,15 @@
+<md-content id="login-body">
+  <div class="login-content">
+    <form ng-submit="loginCtrl.login()" class="login-form md-primary md-hue-2">
+      <md-input-container>
+        <label>Username</label>
+        <input ng-model="loginCtrl.username"/>
+      </md-input-container>
+      <md-input-container>
+        <label>Password</label>
+        <input ng-model="loginCtrl.password" type="password"/>
+      </md-input-container>
+      <md-button class="md-raised md-primary" type="submit">Login</md-button>
+    </form>
+  </div>
+</md-content>

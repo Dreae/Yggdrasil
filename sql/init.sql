@@ -16,11 +16,19 @@ CREATE TABLE IF NOT EXISTS api_keys (
 );
 
 CREATE TABLE IF NOT EXISTS images (
-  id INT AUTO
-)
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS dameon_images (
+  daemon VARCHAR(255) REFERENCES daemon_servers(id),
+  image INT REFERENCES images(id)
+);
 
 CREATE TABLE IF NOT EXISTS game_servers (
   id VARCHAR(255) PRIMARY KEY,
   daemon VARCHAR(255) REFERENCES daemon_servers(id),
-  image VARCHAR()
-)
+  username VARCHAR(255) REFERENCES users(username),
+  image VARCHAR(255),
+  args TEXT
+);
