@@ -2,6 +2,7 @@ package server
 
 import (
   "fmt"
+  "log"
   "io/ioutil"
   "database/sql"
   "encoding/json"
@@ -9,7 +10,7 @@ import (
   "golang.org/x/crypto/bcrypt"
 )
 
-func handleGetServerList(conn *sql.DB)func(*web.Context) {
+func handleUserLogin(conn *sql.DB)func(*web.Context) {
   handler := func(ctx *web.Context) {
     body, err := ioutil.ReadAll(ctx.Request.Body)
     if err != nil {
@@ -18,12 +19,12 @@ func handleGetServerList(conn *sql.DB)func(*web.Context) {
 
     var content map[string]string
     err = json.Unmarshal(body, &content)
-    if er != nil {
+    if err != nil {
       log.Panicln(err)
     }
 
     var pwHash string
-    row := conn.QueryRow("SELECT password FROM users WHERE username = $1", body["username"])
+    row := conn.QueryRow("SELECT password FROM users WHERE username = $1", content["username"])
     err = row.Scan(&pwHash)
     switch {
     case err == sql.ErrNoRows:
@@ -33,7 +34,7 @@ func handleGetServerList(conn *sql.DB)func(*web.Context) {
     case err != nil:
       log.Panicln(err)
     default:
-      err = bcrypt.CompareHashAndPassword(pwHash, content["password"])
+      err = bcrypt.CompareHashAndPassword([]byte(pwHash), []byte(content["password"]))
       if err != nil {
         log.Println(fmt.Sprintf("Bad password for user %s", content["username"]))
         ctx.WriteHeader(404)
